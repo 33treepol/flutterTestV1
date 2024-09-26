@@ -1,3 +1,4 @@
+// code หนุ่ย
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -26,9 +27,7 @@ class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
 
   // Default location (Coordinates for New York City)
-   LatLng _initialPosition = const LatLng(0, 0);
-
-   
+  LatLng _initialPosition = const LatLng(13.7250481, 100.303445);
 
   // Set of markers on the map
   Set<Marker> _markers = {};
@@ -87,7 +86,7 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-    void _moveCameraToPosition(LatLng position) {
+  void _moveCameraToPosition(LatLng position) {
     mapController.animateCamera(CameraUpdate.newLatLng(position));
   }
 
