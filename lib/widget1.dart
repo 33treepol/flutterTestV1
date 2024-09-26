@@ -106,6 +106,16 @@ class _MapScreenState extends State<MapScreen> {
           target: _initialPosition,
           zoom: 14.0,
         ),
+        circles: Set.from([
+    Circle(
+      circleId: CircleId('specific_location_circle'),
+      center: LatLng(13.8140406, 100.7094749), // Center of the circle
+      radius: 500, // Radius in meters (1 km)
+      fillColor: Colors.red.withOpacity(0.3), // Circle color with transparency
+      strokeColor: Colors.blue, // Border color
+      strokeWidth: 2, // Border width
+    ),
+  ]),
         markers: _markers,
         myLocationEnabled: true, // Show the blue dot for the user's location
         myLocationButtonEnabled: true, // Enable the "My Location" button

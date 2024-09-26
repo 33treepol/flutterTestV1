@@ -1,3 +1,7 @@
+// Code หนุ่ยที่ มัน marker มันเดินตามได้แล้ว
+
+
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -21,14 +25,13 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
-  bool _isWithinCircle = false;
 
   LatLng _initialPosition = LatLng(13.813857609529645, 100.70723205738318);
   Set<Marker> _markers = {};
   Circle _circle = Circle(
     circleId: CircleId('current_location'),
     center: LatLng(13.814532219972365, 100.70733077474796),
-    radius: 10, // Increased radius as metre
+    radius: 4, // Increased for better testing range
     fillColor: Colors.blue.withOpacity(0.1),
     strokeWidth: 1,
     strokeColor: Colors.blue,
@@ -83,7 +86,6 @@ class _MapScreenState extends State<MapScreen> {
             fillColorParam: Colors.red.withOpacity(0.3),
           );
         });
-        _isWithinCircle = false;
       } else {
         print('Inside the circle');
         setState(() {
@@ -91,7 +93,6 @@ class _MapScreenState extends State<MapScreen> {
             fillColorParam: Colors.green.withOpacity(0.3),
           );
         });
-        _isWithinCircle = true;
       }
 
       // Move the camera to the new position
@@ -114,57 +115,16 @@ class _MapScreenState extends State<MapScreen> {
       appBar: AppBar(
         title: Text('Google Map - Current Location'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 2,
-            child: GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _initialPosition,
-                zoom: 14.0,
-              ),
-              circles: Set.from([_circle]),
-              markers: _markers,
-              myLocationEnabled:
-                  true,
-              myLocationButtonEnabled: true,
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              color: Colors.white,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: _isWithinCircle
-                          ? () {
-                              // Navigate to another screen
-                            }
-                          : null, // Disable button if user is outside the circle
-                      child: Text('Navigate to login page'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: _isWithinCircle
-                            ? Colors.blue
-                            : Colors.grey, // Change button color based on state
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Another action
-                      },
-                      child: Text('Another Page as we want'),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
+      body: GoogleMap(
+        onMapCreated: _onMapCreated,
+        initialCameraPosition: CameraPosition(
+          target: _initialPosition,
+          zoom: 14.0,
+        ),
+        circles: Set.from([_circle]),
+        markers: _markers,
+        myLocationEnabled: true, // Show the blue dot for the user's location
+        myLocationButtonEnabled: true, // Enable the "My Location" button
       ),
     );
   }
